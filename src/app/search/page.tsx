@@ -1,7 +1,7 @@
+import { Compass, Search } from "lucide-react";
 import { PageShell } from "@/components/shared/page-shell";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
 import { fetchSiteFeed } from "@/lib/site-connector";
 import { buildPostUrl, getPostTaskKey } from "@/lib/task-data";
 import { getMockPostsForTask } from "@/lib/mock-posts";
@@ -10,9 +10,7 @@ import { TaskPostCard } from "@/components/shared/task-post-card";
 
 export const revalidate = 3;
 
-const matchText = (value: string, query: string) =>
-  value.toLowerCase().includes(query);
-
+const matchText = (value: string, query: string) => value.toLowerCase().includes(query);
 const stripHtml = (value: string) => value.replace(/<[^>]*>/g, " ");
 
 const compactText = (value: unknown) => {
@@ -72,45 +70,72 @@ export default async function SearchPage({
 
   return (
     <PageShell
-      title="Search"
+      title="Search the Archive"
       description={
         query
-          ? `Results for "${query}"`
-          : "Browse the latest posts across every task."
+          ? `Results for "${query}" across the publication and its supporting formats.`
+          : "Browse essays, supporting resources, profiles, and related surfaces from one editorial search layer."
       }
       actions={
-        <form action="/search" className="flex w-full gap-2 sm:w-auto">
+        <form action="/search" className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
           <input type="hidden" name="master" value="1" />
           {category ? <input type="hidden" name="category" value={category} /> : null}
           {task ? <input type="hidden" name="task" value={task} /> : null}
-          <div className="relative w-full sm:w-80">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <div className="relative w-full sm:w-[24rem]">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <Input
               name="q"
               defaultValue={query}
-              placeholder="Search across tasks..."
-              className="h-11 pl-9"
+              placeholder="Search essays, topics, tags, and related formats..."
+              className="h-12 rounded-full border-white/14 bg-white/10 pl-10 text-white placeholder:text-slate-300"
             />
           </div>
-          <Button type="submit" className="h-11">
+          <Button type="submit" className="h-12 rounded-full bg-[#9ee1f3] text-[#111a2d] hover:bg-[#b1ebfa]">
             Search
           </Button>
         </form>
       }
     >
-      {results.length ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {results.map((post) => {
-            const task = getPostTaskKey(post);
-            const href = task ? buildPostUrl(task, post.slug) : `/posts/${post.slug}`;
-            return <TaskPostCard key={post.id} post={post} href={href} />;
-          })}
+      <div className="grid gap-8">
+        <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="rounded-[1.8rem] border border-[rgba(45,56,87,0.12)] bg-white/70 p-5">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[rgba(25,41,74,0.06)] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1f2c55]">
+              <Compass className="h-3.5 w-3.5" />
+              Discovery notes
+            </div>
+            <p className="mt-4 text-sm leading-8 text-muted-foreground">
+              Search prioritizes the publication archive first, while still keeping every other supported route
+              discoverable through the same logic and data.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              ["Query", query || "Archive overview"],
+              ["Matching results", String(results.length)],
+              ["Search scope", useMaster ? "Master feed" : "Local feed"],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-[1.6rem] border border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(255,255,255,0.8),rgba(247,241,232,0.94))] p-5">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">{label}</p>
+                <p className="mt-3 text-xl font-semibold tracking-[-0.03em] text-foreground">{value}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      ) : (
-        <div className="rounded-2xl border border-dashed border-border p-10 text-center text-muted-foreground">
-          No matching posts yet.
-        </div>
-      )}
+
+        {results.length ? (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {results.map((post) => {
+              const task = getPostTaskKey(post);
+              const href = task ? buildPostUrl(task, post.slug) : `/posts/${post.slug}`;
+              return <TaskPostCard key={post.id} post={post} href={href} taskKey={task || undefined} />;
+            })}
+          </div>
+        ) : (
+          <div className="rounded-[2rem] border border-dashed border-[rgba(45,56,87,0.18)] bg-white/65 p-12 text-center text-muted-foreground">
+            No matching posts yet.
+          </div>
+        )}
+      </div>
     </PageShell>
   );
 }
