@@ -1,10 +1,10 @@
 export const siteIdentity = {
   code: process.env.NEXT_PUBLIC_SITE_CODE || 'q4xeunt97f',
   name: process.env.NEXT_PUBLIC_SITE_NAME || 'Obsidian Impacts',
-  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'Editorial stories and insights',
+  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'Essays, dispatches, and modern signals',
   description:
     process.env.NEXT_PUBLIC_SITE_DESCRIPTION ||
-    'A reading-first article platform for essays, guides, opinions, and long-form publishing.',
+    'A reading-first journal for essays, reported perspectives, and slower editorial discovery.',
   domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || 'obsidianimpacts.com',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://obsidianimpacts.com',
   ogImage: process.env.NEXT_PUBLIC_SITE_OG_IMAGE || '/og-default.png',

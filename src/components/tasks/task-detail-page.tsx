@@ -267,45 +267,93 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
         >
           <div className={cn(isClassified ? "space-y-8" : "")}>
             {isArticle ? (
-              <div className="mx-auto w-full max-w-4xl space-y-6">
-                <h1 className="text-4xl font-semibold leading-tight text-foreground">
-                  {post.title}
-                </h1>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-                  <span>By {articleAuthor}</span>
-                  {articleDate ? <span>{articleDate}</span> : null}
-                  <Badge variant="secondary" className="inline-flex items-center gap-1">
-                    <Tag className="h-3.5 w-3.5" />
-                    {category}
-                  </Badge>
+              <article className="space-y-8">
+                <div className="overflow-hidden rounded-[2.6rem] border border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(18,25,44,0.98)_0%,rgba(29,38,66,0.97)_74%,rgba(248,242,232,0.98)_74.2%,rgba(248,242,232,0.98)_100%)] shadow-[0_28px_90px_rgba(28,22,18,0.12)]">
+                  <div className="px-6 py-8 sm:px-8 sm:py-10">
+                    <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">
+                      <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[#9ee1f3]">{category}</span>
+                      <span>{articleDate || 'Latest edition'}</span>
+                    </div>
+                    <h1 className="mt-5 max-w-5xl text-4xl font-semibold leading-tight tracking-[-0.06em] text-white sm:text-5xl lg:text-6xl">
+                      {post.title}
+                    </h1>
+                    <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-300">
+                      <span>By {articleAuthor}</span>
+                      {postTags.length ? <span>{postTags.slice(0, 3).join(' / ')}</span> : null}
+                    </div>
+                    {articleSummary ? (
+                      <p className="mt-6 max-w-3xl text-base leading-8 text-slate-200">{articleSummary}</p>
+                    ) : null}
+                  </div>
+
+                  {images[0] ? (
+                    <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+                      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-[2rem] border border-white/10 bg-[#131c31]">
+                        <ContentImage
+                          src={images[0]}
+                          alt={`${post.title} featured image`}
+                          fill
+                          className="object-cover"
+                          intrinsicWidth={1600}
+                          intrinsicHeight={900}
+                        />
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
-                {postTags.length ? (
-                  <div className="flex flex-wrap gap-2">
-                    {postTags.map((tag) => (
-                      <Badge key={tag} variant="outline">
-                        {tag}
-                      </Badge>
-                    ))}
+
+                <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+                  <div className="rounded-[2rem] border border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(247,241,232,0.96))] p-6 sm:p-8">
+                    <RichContent html={articleHtml} className="article-content leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-ul:my-6" />
                   </div>
-                ) : null}
-                {articleSummary ? (
-                  <p className="text-base leading-7 text-muted-foreground">{articleSummary}</p>
-                ) : null}
-                {images[0] ? (
-                  <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-border bg-muted">
-                    <ContentImage
-                      src={images[0]}
-                      alt={`${post.title} featured image`}
-                      fill
-                      className="object-cover"
-                      intrinsicWidth={1600}
-                      intrinsicHeight={900}
-                    />
-                  </div>
-                ) : null}
-                <RichContent html={articleHtml} className="leading-8 prose-p:my-6 prose-h2:my-8 prose-h3:my-6 prose-ul:my-6" />
-                <ArticleComments slug={post.slug} />
-              </div>
+
+                  <aside className="space-y-6">
+                    <div className="rounded-[1.8rem] border border-[rgba(45,56,87,0.12)] bg-white/88 p-5 shadow-[0_20px_50px_rgba(47,35,26,0.05)] lg:sticky lg:top-28">
+                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">Story details</p>
+                      <div className="mt-4 space-y-4 text-sm text-muted-foreground">
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#51617c]">Author</p>
+                          <p className="mt-1 text-foreground">{articleAuthor}</p>
+                        </div>
+                        {articleDate ? (
+                          <div>
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#51617c]">Published</p>
+                            <p className="mt-1 text-foreground">{articleDate}</p>
+                          </div>
+                        ) : null}
+                        <div>
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#51617c]">Category</p>
+                          <p className="mt-1 text-foreground">{category}</p>
+                        </div>
+                        {postTags.length ? (
+                          <div>
+                            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#51617c]">Tags</p>
+                            <div className="mt-2 flex flex-wrap gap-2">
+                              {postTags.map((tag) => (
+                                <Badge key={tag} variant="outline" className="border-[rgba(45,56,87,0.12)] bg-[rgba(25,41,74,0.03)] text-[#1f2c55]">
+                                  {tag}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="mt-6 flex flex-col gap-3">
+                        <Button className="rounded-full bg-[#19294a] text-white hover:bg-[#24375f]" asChild>
+                          <Link href="/articles">Back to archive</Link>
+                        </Button>
+                        <Button variant="outline" className="rounded-full border-[rgba(45,56,87,0.12)] bg-white" asChild>
+                          <Link href={`/search?q=${encodeURIComponent(category)}`}>Search this topic</Link>
+                        </Button>
+                      </div>
+                    </div>
+                  </aside>
+                </div>
+
+                <div className="mx-auto w-full max-w-4xl">
+                  <ArticleComments slug={post.slug} />
+                </div>
+              </article>
             ) : null}
 
             {!isArticle ? (

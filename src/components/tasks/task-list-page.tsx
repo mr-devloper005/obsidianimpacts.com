@@ -147,24 +147,41 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {layoutKey === 'article-editorial' || layoutKey === 'article-journal' ? (
-          <section className="mb-12 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-            <div>
-              <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-              <h1 className="mt-3 max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-foreground">{taskConfig?.description || 'Latest posts'}</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This reading surface uses slower pacing, stronger typographic hierarchy, and more breathing room so long-form content feels intentional rather than squeezed into a generic feed.</p>
-            </div>
-            <div className={`rounded-[2rem] p-6 ${ui.panel}`}>
-              <p className={`text-xs font-semibold uppercase tracking-[0.24em] ${ui.muted}`}>Reading note</p>
-              <p className={`mt-4 text-sm leading-7 ${ui.muted}`}>Use category filters to jump between topics without collapsing the page into the same repeated card rhythm used by other task types.</p>
-              <form className="mt-5 flex items-center gap-3" action={taskConfig?.route || '#'}>
-                <select name="category" defaultValue={normalizedCategory} className={`h-11 flex-1 rounded-xl px-3 text-sm ${ui.input}`}>
-                  <option value="all">All categories</option>
-                  {CATEGORY_OPTIONS.map((item) => (
-                    <option key={item.slug} value={item.slug}>{item.name}</option>
-                  ))}
-                </select>
-                <button type="submit" className={`h-11 rounded-xl px-4 text-sm font-medium ${ui.button}`}>Apply</button>
-              </form>
+          <section className="mb-12 overflow-hidden rounded-[2.6rem] border border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(18,25,44,0.98)_0%,rgba(30,39,68,0.97)_72%,rgba(248,242,232,0.96)_72.2%,rgba(248,242,232,0.98)_100%)] shadow-[0_30px_90px_rgba(28,22,18,0.12)]">
+            <div className="grid gap-8 px-6 py-8 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-10">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9ee1f3]">{taskConfig?.label || task}</p>
+                <h1 className="mt-4 max-w-4xl text-5xl font-semibold tracking-[-0.06em] text-white sm:text-6xl">
+                  A calmer archive for essays, dispatches, and long-form reading.
+                </h1>
+                <p className="mt-5 max-w-2xl text-sm leading-8 text-slate-300">
+                  This archive favors cover-story pacing, stronger hierarchy, and quieter supporting navigation so the page reads like a publication archive instead of a generic content index.
+                </p>
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <Link href={taskConfig?.route || '#'} className="inline-flex items-center gap-2 rounded-full bg-[#9ee1f3] px-5 py-3 text-sm font-semibold text-[#111a2d]">
+                    Browse latest
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                  <Link href="/search" className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/6 px-5 py-3 text-sm font-semibold text-white">
+                    Search archive
+                  </Link>
+                </div>
+              </div>
+              <div className="rounded-[2rem] border border-white/10 bg-white/6 p-6 text-white backdrop-blur">
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-300">Archive filter</p>
+                <p className="mt-4 text-sm leading-7 text-slate-200">
+                  Move between topics without flattening everything into the same card rhythm used by other task types.
+                </p>
+                <form className="mt-5 flex flex-col gap-3 sm:flex-row" action={taskConfig?.route || '#'}>
+                  <select name="category" defaultValue={normalizedCategory} className="h-11 flex-1 rounded-xl border border-white/12 bg-white/10 px-3 text-sm text-white">
+                    <option value="all">All categories</option>
+                    {CATEGORY_OPTIONS.map((item) => (
+                      <option key={item.slug} value={item.slug}>{item.name}</option>
+                    ))}
+                  </select>
+                  <button type="submit" className="h-11 rounded-xl bg-white px-4 text-sm font-medium text-[#111a2d]">Apply</button>
+                </form>
+              </div>
             </div>
           </section>
         ) : null}
@@ -238,7 +255,7 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {intro ? (
-          <section className={`mb-12 rounded-[2rem] p-6 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:p-8 ${ui.panel}`}>
+          <section className={`mb-12 rounded-[2rem] p-6 shadow-[0_18px_50px_rgba(15,23,42,0.06)] sm:p-8 ${task === 'article' ? 'border border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(255,255,255,0.92),rgba(247,241,232,0.96))]' : ui.panel}`}>
             <h2 className="text-2xl font-semibold text-foreground">{intro.title}</h2>
             {intro.paragraphs.map((paragraph) => (
               <p key={paragraph.slice(0, 40)} className={`mt-4 text-sm leading-7 ${ui.muted}`}>{paragraph}</p>
