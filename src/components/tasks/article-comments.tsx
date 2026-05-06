@@ -244,123 +244,204 @@ export function ArticleComments({ slug }: { slug: string }) {
   };
 
   return (
-    <section className="mt-12" id="comments">
-      <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-        <MessageSquare className="h-4 w-4" />
-        Comments
+    <section className="mt-16" id="comments">
+      <div className="relative">
+        <div className="flex items-center gap-4">
+          <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full" />
+          <h2 className="text-2xl font-bold text-slate-900">Community Discussion</h2>
+          <div className="ml-auto flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+            <span className="text-sm text-slate-600">{mergedComments.length} {mergedComments.length === 1 ? 'comment' : 'comments'}</span>
+          </div>
+        </div>
+        <p className="mt-3 text-slate-600 max-w-2xl">
+          Join the conversation and share your thoughts with the community. Your voice matters!
+        </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 rounded-2xl border border-border bg-white p-5 shadow-sm">
-        <div className="space-y-2">
-          <label htmlFor="comment-body" className="text-sm font-medium text-foreground">
-            Add a comment
-          </label>
+      <form onSubmit={handleSubmit} className="mt-8 rounded-3xl bg-gradient-to-br from-slate-50 to-white border border-slate-200/60 p-8 shadow-xl backdrop-blur-sm">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-semibold">
+              {getLocalAuthorName().charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <label htmlFor="comment-body" className="text-base font-semibold text-slate-900">
+                Share your thoughts
+              </label>
+              <p className="text-sm text-slate-600">{getLocalAuthorName()}</p>
+            </div>
+          </div>
           <Textarea
             id="comment-body"
             value={commentBody}
             onChange={(event) => setCommentBody(event.target.value)}
-            placeholder="Write your comment here"
-            className="min-h-28"
+            placeholder="What's your perspective on this? Share your insights, questions, or experiences..."
+            className="min-h-32 border-slate-200 bg-white/80 backdrop-blur-sm text-base resize-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
             maxLength={2000}
             disabled={limitReached}
           />
         </div>
-        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="space-y-1">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+          <div className="space-y-2">
             <div
-              className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+              className={`inline-flex rounded-full px-4 py-2 text-sm font-semibold transition-all ${
                 limitReached
-                  ? "bg-destructive/10 text-destructive"
+                  ? "bg-red-100 text-red-700 border border-red-200"
                   : remainingToday <= 3
-                    ? "bg-amber-100 text-amber-700"
-                    : "bg-primary/10 text-primary"
+                    ? "bg-amber-100 text-amber-700 border border-amber-200"
+                    : "bg-green-100 text-green-700 border border-green-200"
               }`}
             >
               {limitReached
-                ? `Daily limit reached: ${DAILY_COMMENT_LIMIT}/${DAILY_COMMENT_LIMIT}`
-                : `${remainingToday} of ${DAILY_COMMENT_LIMIT} comments left today`}
+                ? `🚫 Daily limit reached: ${DAILY_COMMENT_LIMIT}/${DAILY_COMMENT_LIMIT}`
+                : remainingToday <= 3
+                  ? `⚠️ ${remainingToday} of ${DAILY_COMMENT_LIMIT} comments left today`
+                  : `✅ ${remainingToday} of ${DAILY_COMMENT_LIMIT} comments available today`}
             </div>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-slate-500">
               {limitReached
-                ? `You can publish again after ${resetLabel}.`
-                : `Limit resets after ${resetLabel}.`}
+                ? `You can share again after ${resetLabel}.`
+                : `Your comment limit refreshes after ${resetLabel}.`}
             </p>
           </div>
-          <Button type="submit" disabled={limitReached}>
-            Publish Comment
+          <Button 
+            type="submit" 
+            disabled={limitReached}
+            className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg transition-all duration-200 px-6"
+          >
+            {limitReached ? 'Limit Reached' : 'Publish Comment'}
           </Button>
         </div>
-        {formError ? <p className="mt-3 text-sm text-destructive">{formError}</p> : null}
+        {formError ? (
+          <div className="mt-4 rounded-2xl bg-red-50 border border-red-200 p-4">
+            <p className="text-sm text-red-700 font-medium">{formError}</p>
+          </div>
+        ) : null}
       </form>
 
       {mergedComments.length ? (
-        <div className="mt-6 space-y-4">
+        <div className="mt-8 space-y-6">
           {visibleComments.map((comment) => {
             const isHighlighted = highlightId === comment.id;
             return (
               <div
                 key={comment.id}
                 id={`comment-${comment.id}`}
-                className={`rounded-2xl border p-4 ${
-                  isHighlighted ? "border-primary/50 bg-primary/5" : "border-border bg-white"
+                className={`relative rounded-3xl border-2 p-6 transition-all duration-300 ${
+                  isHighlighted 
+                    ? "border-blue-400 bg-gradient-to-br from-blue-50 to-purple-50 shadow-lg shadow-blue-200/30" 
+                    : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-lg"
                 }`}
               >
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">{comment.authorName}</p>
+                {isHighlighted && (
+                  <div className="absolute -top-3 left-6">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-blue-600 text-white px-3 py-1 text-xs font-semibold">
+                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                      New Comment
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center text-white font-semibold text-lg shadow-md">
+                      {comment.authorName.charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-slate-900 text-base">{comment.authorName}</p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <div className="w-1.5 h-1.5 bg-slate-400 rounded-full" />
+                        <p className="text-xs text-slate-500">
+                          {new Date(comment.createdAt).toLocaleDateString('en-US', { 
+                            month: 'short', 
+                            day: 'numeric', 
+                            year: 'numeric' 
+                          })}
+                        </p>
+                        {comment.source === "local" && (
+                          <span className="inline-flex items-center gap-1 rounded-full bg-green-100 text-green-700 px-2 py-0.5 text-xs font-medium">
+                            <div className="w-1 h-1 bg-green-600 rounded-full" />
+                            You
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(comment.createdAt).toLocaleDateString()}
-                    </p>
                     {comment.source === "local" ? (
                       <button
                         type="button"
                         onClick={() => handleDeleteLocalComment(comment.id)}
-                        className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground transition hover:border-destructive/30 hover:bg-destructive/5 hover:text-destructive"
+                        className="group inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 text-slate-400 transition-all hover:border-red-300 hover:bg-red-50 hover:text-red-600"
                         aria-label="Delete local comment"
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4 group-hover:scale-110 transition-transform" />
                       </button>
                     ) : null}
                   </div>
                 </div>
-                <RichContent
-                  html={formatRichHtml(comment.body, "Comment added.")}
-                  className="mt-2 text-sm text-muted-foreground prose-sm prose-h2:text-xl prose-h3:text-lg"
-                />
+                <div className="mt-4 pl-15">
+                  <RichContent
+                    html={formatRichHtml(comment.body, "Comment added.")}
+                    className="text-slate-700 prose prose-sm prose-p:my-3 prose-h2:text-lg prose-h3:text-base prose-a:text-blue-600 hover:prose-a:text-blue-700 prose-strong:text-slate-900"
+                  />
+                </div>
               </div>
             );
           })}
         </div>
       ) : (
-        <div className="mt-6 rounded-2xl border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          No comments yet.
+        <div className="mt-8 rounded-3xl border-2 border-dashed border-slate-300 bg-gradient-to-br from-slate-50 to-white p-12 text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+            <MessageSquare className="h-8 w-8 text-slate-500" />
+          </div>
+          <h3 className="text-lg font-semibold text-slate-900 mb-2">No comments yet</h3>
+          <p className="text-slate-600 max-w-md mx-auto">
+            Be the first to share your thoughts! Start the conversation and help build our community.
+          </p>
         </div>
       )}
 
       {totalPages > 1 ? (
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-muted-foreground">
-          <span>
-            Page {safePage} of {totalPages}
-          </span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-              disabled={safePage === 1}
-              className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Previous
-            </button>
-            <button
-              type="button"
-              onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={safePage === totalPages}
-              className="rounded-full border border-border px-3 py-1.5 text-xs font-semibold text-foreground disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Next
-            </button>
+        <div className="mt-8 rounded-3xl bg-gradient-to-br from-slate-50 to-white border border-slate-200/60 p-6 shadow-xl backdrop-blur-sm">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 bg-blue-500 rounded-full" />
+              <span className="text-sm font-medium text-slate-700">
+                Page {safePage} of {totalPages}
+              </span>
+              <span className="text-sm text-slate-500">
+                ({mergedComments.length} total {mergedComments.length === 1 ? 'comment' : 'comments'})
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                disabled={safePage === 1}
+                className="group rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-all hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-slate-200 disabled:hover:bg-white disabled:hover:text-slate-700"
+              >
+                <span className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Previous
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={safePage === totalPages}
+                className="group rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-all hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-slate-200 disabled:hover:bg-white disabled:hover:text-slate-700"
+              >
+                <span className="flex items-center gap-2">
+                  Next
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       ) : null}
