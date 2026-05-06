@@ -272,7 +272,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                   <div className="px-6 py-8 sm:px-8 sm:py-10">
                     <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">
                       <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[#9ee1f3]">{category}</span>
-                      <span>{articleDate || 'Latest edition'}</span>
                     </div>
                     <h1 className="mt-5 max-w-5xl text-4xl font-semibold leading-tight tracking-[-0.06em] text-white sm:text-5xl lg:text-6xl">
                       {post.title}
@@ -315,12 +314,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#51617c]">Author</p>
                           <p className="mt-1 text-foreground">{articleAuthor}</p>
                         </div>
-                        {articleDate ? (
-                          <div>
-                            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#51617c]">Published</p>
-                            <p className="mt-1 text-foreground">{articleDate}</p>
-                          </div>
-                        ) : null}
                         <div>
                           <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#51617c]">Category</p>
                           <p className="mt-1 text-foreground">{category}</p>
@@ -339,9 +332,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                         ) : null}
                       </div>
                       <div className="mt-6 flex flex-col gap-3">
-                        <Button className="rounded-full bg-[#19294a] text-white hover:bg-[#24375f]" asChild>
-                          <Link href="/articles">Back to archive</Link>
-                        </Button>
                         <Button variant="outline" className="rounded-full border-[rgba(45,56,87,0.12)] bg-white" asChild>
                           <Link href={`/search?q=${encodeURIComponent(category)}`}>Search this topic</Link>
                         </Button>
