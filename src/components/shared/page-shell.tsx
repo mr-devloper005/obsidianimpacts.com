@@ -20,7 +20,7 @@ export function PageShell({
     <div className="min-h-screen bg-background">
       <NavbarShell />
       <main>
-        <section className="border-b border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(18,25,44,0.98)_0%,rgba(29,38,66,0.97)_74%,rgba(248,242,232,0.98)_74.2%,rgba(248,242,232,0.98)_100%)]">
+        <section className="border-b border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(18,25,44,0.98)_0%,rgba(29,38,66,0.97)_100%)]">
           <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8 lg:py-12">
             <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
               <div className="max-w-3xl">

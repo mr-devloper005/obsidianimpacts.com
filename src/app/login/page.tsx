@@ -78,7 +78,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace('/dashboard')
+      router.replace('/')
     }
   }, [isAuthenticated, router])
 
@@ -91,7 +91,7 @@ export default function LoginPage() {
       title: 'Signed in',
       description: 'Your workspace is ready.',
     })
-    router.push('/dashboard')
+    router.push('/')
   }
 
   return (
