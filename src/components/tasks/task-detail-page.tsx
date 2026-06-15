@@ -280,9 +280,6 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                       <span>By {articleAuthor}</span>
                       {postTags.length ? <span>{postTags.slice(0, 3).join(' / ')}</span> : null}
                     </div>
-                    {articleSummary ? (
-                      <p className="mt-6 max-w-3xl text-base leading-8 text-slate-200">{articleSummary}</p>
-                    ) : null}
                   </div>
 
                   {images[0] ? (
