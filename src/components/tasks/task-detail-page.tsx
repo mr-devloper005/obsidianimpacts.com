@@ -268,7 +268,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
           <div className={cn(isClassified ? "space-y-8" : "")}>
             {isArticle ? (
               <article className="space-y-8">
-                <div className="overflow-hidden rounded-[2.6rem] border border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(18,25,44,0.98)_0%,rgba(29,38,66,0.97)_74%,rgba(248,242,232,0.98)_74.2%,rgba(248,242,232,0.98)_100%)] shadow-[0_28px_90px_rgba(28,22,18,0.12)]">
+                <div className="overflow-hidden rounded-[2.6rem] border border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(18,25,44,0.98)_0%,rgba(29,38,66,0.97)_100%)] shadow-[0_28px_90px_rgba(28,22,18,0.12)]">
                   <div className="px-6 py-8 sm:px-8 sm:py-10">
                     <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-300">
                       <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[#9ee1f3]">{category}</span>

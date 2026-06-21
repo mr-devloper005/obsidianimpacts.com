@@ -134,7 +134,11 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
             <form className={`grid gap-3 rounded-[2rem] p-6 shadow-[0_18px_50px_rgba(15,23,42,0.06)] ${ui.soft}`} action={taskConfig?.route || '#'}>
               <div>
                 <label className={`text-xs uppercase tracking-[0.2em] ${ui.muted}`}>Category</label>
-                <select name="category" defaultValue={normalizedCategory} className={`mt-2 h-11 w-full rounded-xl px-3 text-sm ${ui.input}`}>
+                <select
+                  name="category"
+                  defaultValue={normalizedCategory}
+                  className={`mt-2 h-11 w-full rounded-xl px-3 text-sm [&>option]:bg-white [&>option]:text-slate-900 ${ui.input}`}
+                >
                   <option value="all">All categories</option>
                   {CATEGORY_OPTIONS.map((item) => (
                     <option key={item.slug} value={item.slug}>{item.name}</option>
@@ -147,7 +151,7 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         ) : null}
 
         {layoutKey === 'article-editorial' || layoutKey === 'article-journal' ? (
-          <section className="mb-12 overflow-hidden rounded-[2.6rem] border border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(18,25,44,0.98)_0%,rgba(30,39,68,0.97)_72%,rgba(248,242,232,0.96)_72.2%,rgba(248,242,232,0.98)_100%)] shadow-[0_30px_90px_rgba(28,22,18,0.12)]">
+          <section className="mb-12 overflow-hidden rounded-[2.6rem] border border-[rgba(45,56,87,0.12)] bg-[linear-gradient(180deg,rgba(18,25,44,0.98)_0%,rgba(30,39,68,0.97)_100%)] shadow-[0_30px_90px_rgba(28,22,18,0.12)]">
             <div className="grid gap-8 px-6 py-8 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-10">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9ee1f3]">{taskConfig?.label || task}</p>
@@ -173,7 +177,11 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                   Move between topics without flattening everything into the same card rhythm used by other task types.
                 </p>
                 <form className="mt-5 flex flex-col gap-3 sm:flex-row" action={taskConfig?.route || '#'}>
-                  <select name="category" defaultValue={normalizedCategory} className="h-11 flex-1 rounded-xl border border-white/12 bg-white/10 px-3 text-sm text-white">
+                  <select
+                    name="category"
+                    defaultValue={normalizedCategory}
+                    className="h-11 flex-1 rounded-xl border border-white/12 bg-white/10 px-3 text-sm text-white [&>option]:bg-white [&>option]:text-slate-900"
+                  >
                     <option value="all">All categories</option>
                     {CATEGORY_OPTIONS.map((item) => (
                       <option key={item.slug} value={item.slug}>{item.name}</option>
@@ -242,7 +250,11 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
             <div className={`rounded-[2rem] p-6 ${ui.panel}`}>
               <p className={`text-xs uppercase tracking-[0.24em] ${ui.muted}`}>Collection filter</p>
               <form className="mt-4 flex items-center gap-3" action={taskConfig?.route || '#'}>
-                <select name="category" defaultValue={normalizedCategory} className={`h-11 flex-1 rounded-xl px-3 text-sm ${ui.input}`}>
+                <select
+                  name="category"
+                  defaultValue={normalizedCategory}
+                  className={`h-11 flex-1 rounded-xl px-3 text-sm [&>option]:bg-white [&>option]:text-slate-900 ${ui.input}`}
+                >
                   <option value="all">All categories</option>
                   {CATEGORY_OPTIONS.map((item) => (
                     <option key={item.slug} value={item.slug}>{item.name}</option>

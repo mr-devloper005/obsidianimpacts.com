@@ -38,7 +38,7 @@ export default function AboutPage() {
       actions={
         <>
           <Button variant="outline" asChild className="rounded-full border-white/15 bg-white/8 text-white hover:bg-white/14">
-            <Link href="/team">Meet the team</Link>
+           
           </Button>
           <Button asChild className="rounded-full bg-[#9ee1f3] text-[#111a2d] hover:bg-[#b1ebfa]">
             <Link href="/contact">Contact editorial desk</Link>
@@ -88,37 +88,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <div className="mt-10 rounded-[2rem] border border-[rgba(45,56,87,0.12)] bg-[#19294a] p-6 text-white">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#9ee1f3]">Editorial team</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">The people shaping the reading experience.</h2>
-          </div>
-          <Link href="/contact" className="inline-flex items-center gap-2 text-sm font-semibold text-[#9ee1f3] hover:text-white">
-            Start a conversation
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
-          {mockTeamMembers.map((member) => (
-            <div key={member.id} className="rounded-[1.6rem] border border-white/10 bg-white/6 p-5 backdrop-blur">
-              <div className="flex items-center gap-3">
-                <Avatar className="h-12 w-12">
-                  <AvatarImage src={member.avatar} alt={member.name} />
-                  <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="text-sm font-semibold text-white">{member.name}</p>
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-300">{member.role}</p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-7 text-slate-300">{member.bio}</p>
-              <p className="mt-4 text-xs uppercase tracking-[0.18em] text-slate-400">{member.location}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      
     </PageShell>
   );
 }
