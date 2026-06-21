@@ -135,8 +135,6 @@ export const taskIntroCopy: Record<
     ],
     links: [
       { label: 'Search the archive', href: '/search' },
-      { label: 'Open visuals', href: '/images' },
-      { label: 'Browse documents', href: '/pdf' },
     ],
   },
   classified: {
